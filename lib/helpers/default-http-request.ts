@@ -21,7 +21,8 @@ export const httpRequest: ProxyHttpRequest = <R>(endpoint: string, host: string,
         request.post(uri, {
             method: 'post',
             form: requestParams,
-            ca: getCertificate()
+            ca: getCertificate(),
+            timeout: 500
         }, (error, response, body) => {
             if (error) {
                 reject(error);
