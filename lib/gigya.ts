@@ -32,8 +32,8 @@ export * from './interfaces/base-params';
 
 export class Gigya {
     protected static readonly RATE_LIMIT_SLEEP = 2000;
-    protected static readonly RETRY_LIMIT = 5;
-    protected static readonly RETRY_DELAY = 5000;
+    public static RETRY_LIMIT = 5;
+    public static RETRY_DELAY = 5000;
     protected apiKey: string | undefined;
     protected dataCenter: string | undefined;
     protected userKey: string | undefined;
@@ -180,7 +180,7 @@ export class Gigya {
         }
 
         // Check for rate limiting.
-        if (response.errorCode === ErrorCode.RATE_LIMIT_HIT) {
+        if (response.errorCode === ErrorCode.RATE_LIMIT_HIT && Gigya.RETRY_LIMIT) {
             // Try again after waiting.
             await sleep(Gigya.RATE_LIMIT_SLEEP);
             return this._request<R>(endpoint, userParams, retries);
